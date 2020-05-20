@@ -2,7 +2,7 @@
 * Template Name: Sunshine - Responsive vCard Template
 * Author: LMPixels
 * Author URL: http://themeforest.net/user/lmpixels
-* Version: 2.2
+* Version: 2.1
 */
 
 (function($) {
@@ -70,61 +70,25 @@
     });
     // /Contact form validator
 
-    // Text Rotator
-    $.fn.extend({ 
-            rotaterator: function(options) {
-
-                var defaults = {
-                    fadeSpeed: 500,
-                    pauseSpeed: 100,
-                    child:null
-                };
-                 
-                var options = $.extend(defaults, options);
-             
-                return this.each(function() {
-                      var o =options;
-                      var obj = $(this);                
-                      var items = $(obj.children(), obj);
-                      items.each(function() {$(this).hide();});
-                      if(!o.child){var next = $(obj).children(':first');
-                      }else{var next = o.child;
-                      }
-                      $(next).fadeIn(o.fadeSpeed, function() {
-                            $(next).delay(o.pauseSpeed).fadeOut(o.fadeSpeed, function() {
-                                var next = $(this).next();
-                                if (next.length === 0){
-                                        next = $(obj).children(':first');
-                                }
-                                $(obj).rotaterator({child : next, fadeSpeed : o.fadeSpeed, pauseSpeed : o.pauseSpeed});
-                            });
-                        });
-                });
-            }
-        });
-    // /Text Rotator
-
     // Hide Mobile menu
     function mobileMenuHide() {
         var windowWidth = $(window).width();
         if (windowWidth < 1024) {
-            $('#site_header').addClass('mobile-menu-hide');
+            $('.site-nav').addClass('mobile-menu-hide');
         }
     }
     // /Hide Mobile menu
 
-    // Animate page loader
-    $(window).on('load', function() {
-        $(".preloader").fadeOut("slow");
-    });
 
     $(document).ready(function(){
 
         // Initialize Portfolio grid
-        var $portfolio_container = $(".portfolio-grid");
+        var $portfolio_container = $("#portfolio-grid");
 
         $portfolio_container.imagesLoaded(function () {
-            portfolio_init(this);
+            setTimeout(function(){
+                portfolio_init(this);
+            }, 500);
         });
 
         // Portfolio hover effect init
@@ -132,11 +96,11 @@
 
         // Mobile menu
         $('.menu-toggle').click(function() { 
-            $('#site_header').toggleClass('mobile-menu-hide');
+            $('.site-nav').toggleClass('mobile-menu-hide');
         });
 
         // Testimonials Slider
-        var $testimonials = $(".testimonials.owl-carousel").owlCarousel({
+        $(".testimonials.owl-carousel").owlCarousel({
             nav: true, // Show next/prev buttons.
             items: 1, // The number of items you want to see on the screen.
             loop: true, // Infinity loop. Duplicate last and first items to get loop illusion.
@@ -144,20 +108,11 @@
             margin: 10,
         });
 
-        // Reinit testimonials carousel on subpage change
-        $('.site-main-menu').on("click", "a", function (e) {
-           $testimonials.trigger('refresh.owl.carousel');
-        });
-
-        // Text rotator init
-        $('#rotate').rotaterator({fadeSpeed:800, pauseSpeed:1900});
- 
-
-        // Blog grid init
-        var $container = $(".blog-masonry");
-        $container.imagesLoaded(function(){
+         // Blog grid init
+        setTimeout(function(){
+            var $container = $(".blog-masonry");
             $container.masonry();
-        });
+        }, 500);
 
         $('.site-main-menu').on("click", "a", function (e) {
             var $container = $(".blog-masonry");
@@ -217,6 +172,11 @@
         });
 
 
+    });
+    
+    // Animate page loader
+    $(window).on('load', function() {
+        $(".preloader").fadeOut("slow");
     });
 
     // Mobile menu hide
